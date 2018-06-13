@@ -1,5 +1,3 @@
-# userscripts
-
 1. **Install Violentmonkey extension:**
 
     [HowTo](https://violentmonkey.github.io/get-it/)
