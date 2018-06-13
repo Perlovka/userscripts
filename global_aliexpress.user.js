@@ -1,6 +1,8 @@
 // ==UserScript==
 // @name Global Aliexpress
 // @namespace https://github.com/Perlovka/userscripts
+// @download  https://github.com/Perlovka/userscripts/raw/master/global_aliexpress.user.js
+// @updateurl https://github.com/Perlovka/userscripts/raw/master/global_aliexpress.user.js
 // @run-at document-end
 // @grant GM_xmlhttpRequest
 // @include *
