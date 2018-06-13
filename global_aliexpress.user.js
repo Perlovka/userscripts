@@ -1,11 +1,14 @@
 // ==UserScript==
 // @name Global Aliexpress
-// @namespace https://github.com/Perlovka/userscripts
-// @download  https://github.com/Perlovka/userscripts/raw/master/global_aliexpress.user.js
-// @updateurl https://github.com/Perlovka/userscripts/raw/master/global_aliexpress.user.js
+// @namespace Perlovka/userscripts
+// @homepageURL https://github.com/Perlovka/userscripts
+// @version 1.0
+// @downloadURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress.user.js
+// @updateURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress.user.js
+// @match *://*
+// @include *://*
 // @run-at document-end
 // @grant GM_xmlhttpRequest
-// @include *
 // ==/UserScript==
 
 function stripUrl(url) {
