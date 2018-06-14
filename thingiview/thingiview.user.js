@@ -4,7 +4,7 @@
 // @homepageURL https://github.com/Perlovka/userscripts
 // @downloadURL https://github.com/Perlovka/userscripts/raw/master/thingiview/thingiview.user.js
 // @updateURL https://github.com/Perlovka/userscripts/raw/master/thingiview/thingiview.user.js
-// @version 1.0.4
+// @version 1.0.5
 // @match *://*/*
 // @include *://*/*
 // @run-at document-end
@@ -77,23 +77,27 @@ function showTooltip(el) {
   }
 }
 
-function loadPreview(el){
+function loadPreview(ev){
 //  GM_log('Getting preview for ' + el.target.href)
+  ev.target.style.cursor = 'wait';
   let result = GM_xmlhttpRequest ({
     method: "GET",
-    url:  el.target.href,
+    url:  ev.target.href,
     onload: function (res) {
       if (res.status == 200) {
         let parser = new DOMParser ();
         let responseDoc = parser.parseFromString (res.responseText, "text/html");
         let purl = responseDoc.querySelectorAll('meta[property="og:image"]')[0].getAttribute('content');
-        attachTooltip(el, purl);
+
+        attachTooltip(ev, purl);
       }
       else {
         GM_log('Error(HTTP ' + res.status + '): ' + res.statusText, res.finalUrl)
       }
+      ev.target.style.cursor = 'pointer';
     },
     onerror: function (res) {
+      ev.target.style.cursor = 'pointer';
       GM_log('Error(HTTP ' + res.status + '): ' + res.statusText, res.finalUrl);
     }
   });
