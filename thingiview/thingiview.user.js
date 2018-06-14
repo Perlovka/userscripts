@@ -11,76 +11,108 @@
 // @grant GM_xmlhttpRequest
 // ==/UserScript==
 
-var css = '.thv_tip {visibility: hidden; opacity: 0; transition: opacity 0.5s;     position: absolute;    z-index: 1;     top: 125%;    left: 50%; border: 5px solid #ccc; border-radius: 5px; }';
-var pHeight = 300;
-var style = document.createElement('style');
-var timeout = null;
+var tpHeight = 300;
+var tpOffset = 15;
+var tpTimeout = 300;
+var timeoutID = null;
+var css = document.createElement('style');
+css.type = "text/css";
+css.innerHTML = `
+  .thv_tip {
+    position: fixed;
+    z-index: 100;
+    display: block;
+    height: `+ tpHeight +`px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border: 5px solid #ddd;
+    border-radius: 5px;
+    background-color: red;
+    }
+`;
+document.head.appendChild(css);
 
-if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-} else {
-    style.appendChild(document.createTextNode(css));
-}
+function getPosition(ev) {
+//  let rect = ev.target.getBoundingClientRect();
+  var tpX, tpY;
+/*     if ( (ev.clientX + tpHeight + tpOffset) > window.innerHeight ) {
+         tpY = ev.clientY - tpHeight - tpOffset*2 + 'px';
+     }
+       else {
+         tpY = ev.clientY + tpOffset + 'px';
+     }
+*/
 
-document.getElementsByTagName('head')[0].appendChild(style);
-
-function attachTooltip(el, src) {
-  
-    let tooltip = document.createElement('span');
-    let thumb = document.createElement('img');
-  
-    thumb.setAttribute('src', src);
-    thumb.setAttribute('height', pHeight+'px');
-    tooltip.setAttribute('class', 'thv_tip');
-    el.style.position = 'relative';
-    el.className += ' thv_link';
-    el.appendChild(tooltip);
-    tooltip.appendChild(thumb);
-
-    showTooltip(el);
-}
-
-function loadPreview(el){
-  if (! el.target.getElementsByClassName('thv_tip').length)  {
-    console.log('Getting preview for ' + el.target.href)
-    let result = GM_xmlhttpRequest ( {
-      method: "GET",
-      url:  el.target.href,
-      onload: function (res) {
-        let parser      = new DOMParser ();
-        let responseDoc = parser.parseFromString (res.responseText, "text/html");
-        let purl = responseDoc.querySelectorAll('meta[property="og:image"]')[0].getAttribute('content');
-        attachTooltip(el.target, purl);
-      },
-      onerror: function (res) {console.log(res.statusText);}
-    });
+  if ( (ev.clientY + tpHeight + tpOffset) > window.innerHeight ) {
+      tpY = ev.clientY - tpHeight - tpOffset*2 + 'px';
   }
   else {
-    showTooltip(el.target);
+      tpY = ev.clientY + tpOffset + 'px';
   }
+  return {
+    x: tpX,
+    y: tpY
+  };
+}
+
+function attachTooltip(ev, src) {
+    let tooltip = document.createElement('img');
+    tooltip.setAttribute('src', src);
+    tooltip.setAttribute('class', 'thv_tip');
+    ev.target.style.position = 'relative';
+    ev.target.className += ' thv_link';
+    ev.target.appendChild(tooltip);
+    showTooltip(ev);
 }
 
 function showTooltip(el) {
-//  console.log('Show preview for ' + el.target.href)
-  let elements = el.getElementsByClassName('thv_tip');
-  if (elements.length)  {
-      elements[0].style.visibility = 'visible';
-      elements[0].style.opacity = 1;
+  if (el.target.nodeName == "A") {
+    timeoutID = window.setTimeout(function () {
+      if (! el.target.getElementsByClassName('thv_tip').length)  {
+        loadPreview(el);
+      }
+      else {
+        popTooltip(el);
+      }
+    }, tpTimeout);
   }
 }
 
-function hideTootltip(el) {
-//  console.log('Hide preview for ' + el.target.href)
-  let elements = el.target.getElementsByClassName('thv_tip');
+function loadPreview(el){
+  console.log('Getting preview for ' + el.target.href)
+  let result = GM_xmlhttpRequest ({
+    method: "GET",
+    url:  el.target.href,
+    onload: function (res) {
+      let parser      = new DOMParser ();
+      let responseDoc = parser.parseFromString (res.responseText, "text/html");
+      let purl = responseDoc.querySelectorAll('meta[property="og:image"]')[0].getAttribute('content');
+      attachTooltip(el, purl);
+    },
+    onerror: function (res) {console.log(res.statusText);}
+  });
+}
+
+function popTooltip(ev) {
+  let elements = ev.target.getElementsByClassName('thv_tip');
   if (elements.length)  {
+    console.log('Show tooltip for ' + ev.target.href)
+    tpPos = getPosition(ev);
+    elements[0].style.left =  ev.clientX + 15 + 'px';
+    elements[0].style.top =  tpPos.y;
+    elements[0].style.visibility = 'visible';
+    elements[0].style.opacity = 1;
+  }
+}
+
+function hideTooltip(ev) {
+  window.clearTimeout(timeoutID);
+  let elements = ev.target.getElementsByClassName('thv_tip');
+  if (elements.length)  {
+      console.log('Hide tooltip for ' + ev.target.href)
       elements[0].style.visibility = 'hidden';
       elements[0].style.opacity = 0;
-  }
-}
-
-function getPreview(el) {
-  if (el.target.nodeName == "A") {
-     loadPreview(el);
   }
 }
 
@@ -92,6 +124,6 @@ var links = document.evaluate("//a[contains(@href, 'thingiverse.com/thing:')]",
 
 for (var i=0; i<links.snapshotLength; i++) {
   let link = links.snapshotItem(i);
-  link.addEventListener('mouseover', getPreview);
+  link.addEventListener('mouseover', showTooltip);
   link.addEventListener('mouseout', hideTooltip);
 }
