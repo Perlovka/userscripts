@@ -4,11 +4,12 @@
 // @homepageURL https://github.com/Perlovka/userscripts
 // @downloadURL https://github.com/Perlovka/userscripts/raw/master/thingiview/thingiview.user.js
 // @updateURL https://github.com/Perlovka/userscripts/raw/master/thingiview/thingiview.user.js
-// @version 1.0.2
+// @version 1.0.3
 // @match *://*/*
 // @include *://*/*
 // @run-at document-end
 // @grant GM_xmlhttpRequest
+// @grant GM_log
 // ==/UserScript==
 
 var tpHeight = 300;
@@ -33,16 +34,14 @@ css.innerHTML = `
 `;
 document.head.appendChild(css);
 
-function getPosition(ev) {
-//  let rect = ev.target.getBoundingClientRect();
+function getPosition(ev, el) {
   var tpX, tpY;
-/*     if ( (ev.clientX + tpHeight + tpOffset) > window.innerHeight ) {
-         tpY = ev.clientY - tpHeight - tpOffset*2 + 'px';
-     }
-       else {
-         tpY = ev.clientY + tpOffset + 'px';
-     }
-*/
+  if ( (ev.clientX + el.clientWidth + tpOffset) > window.innerWidth ) {
+    tpX = window.innerWidth - el.clientWidth - tpOffset*2 + 'px';
+  }
+  else {
+    tpX = ev.clientX + tpOffset + 'px';
+  }
 
   if ( (ev.clientY + tpHeight + tpOffset) > window.innerHeight ) {
       tpY = ev.clientY - tpHeight - tpOffset*2 + 'px';
@@ -80,26 +79,33 @@ function showTooltip(el) {
 }
 
 function loadPreview(el){
-  console.log('Getting preview for ' + el.target.href)
+//  GM_log('Getting preview for ' + el.target.href)
   let result = GM_xmlhttpRequest ({
     method: "GET",
     url:  el.target.href,
     onload: function (res) {
-      let parser      = new DOMParser ();
-      let responseDoc = parser.parseFromString (res.responseText, "text/html");
-      let purl = responseDoc.querySelectorAll('meta[property="og:image"]')[0].getAttribute('content');
-      attachTooltip(el, purl);
+      if (res.status == 200) {
+        let parser = new DOMParser ();
+        let responseDoc = parser.parseFromString (res.responseText, "text/html");
+        let purl = responseDoc.querySelectorAll('meta[property="og:image"]')[0].getAttribute('content');
+        attachTooltip(el, purl);
+      }
+      else {
+        GM_log('Error(HTTP ' + res.status + '): ' + res.statusText, res.finalUrl)
+      }
     },
-    onerror: function (res) {console.log(res.statusText);}
+    onerror: function (res) {
+      GM_log('Error(HTTP ' + res.status + '): ' + res.statusText, res.finalUrl);
+    }
   });
 }
 
 function popTooltip(ev) {
   let elements = ev.target.getElementsByClassName('thv_tip');
   if (elements.length)  {
-    console.log('Show tooltip for ' + ev.target.href)
-    tpPos = getPosition(ev);
-    elements[0].style.left =  ev.clientX + 15 + 'px';
+//    GM_log('Show tooltip for ' + ev.target.href)
+    tpPos = getPosition(ev, elements[0]);
+    elements[0].style.left =  tpPos.x; //ev.clientX + 15 + 'px';
     elements[0].style.top =  tpPos.y;
     elements[0].style.visibility = 'visible';
     elements[0].style.opacity = 1;
@@ -110,9 +116,11 @@ function hideTooltip(ev) {
   window.clearTimeout(timeoutID);
   let elements = ev.target.getElementsByClassName('thv_tip');
   if (elements.length)  {
-      console.log('Hide tooltip for ' + ev.target.href)
-      elements[0].style.visibility = 'hidden';
-      elements[0].style.opacity = 0;
+      if (elements[0].style.opacity != 0) {
+//        GM_log('Hide tooltip for ' + ev.target.href)
+        elements[0].style.visibility = 'hidden';
+        elements[0].style.opacity = 0;
+      }
   }
 }
 
