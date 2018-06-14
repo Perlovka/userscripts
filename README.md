@@ -11,3 +11,4 @@
 
    * [Thingiview](https://github.com/Perlovka/userscripts/raw/master/thingiview/thingiview.user.js)  
       Hover links like **https://www.thingiverse.com/thing:2067818** or **https://www.thingiverse.com/make:340318** and get instant preview in tooltip!  
+      *Note: This will not work on sites with Content Security Policy enabled, like github :laughing:
