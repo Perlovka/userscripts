@@ -4,7 +4,7 @@
 // @homepageURL https://github.com/Perlovka/userscripts
 // @downloadURL https://github.com/Perlovka/userscripts/raw/master/thingiview/thingiview.user.js
 // @updateURL https://github.com/Perlovka/userscripts/raw/master/thingiview/thingiview.user.js
-// @version 1.0.3
+// @version 1.0.4
 // @match *://*/*
 // @include *://*/*
 // @run-at document-end
@@ -29,7 +29,6 @@ css.innerHTML = `
     transition: opacity 0.3s;
     border: 5px solid #ddd;
     border-radius: 5px;
-    background-color: red;
     }
 `;
 document.head.appendChild(css);
@@ -124,7 +123,7 @@ function hideTooltip(ev) {
   }
 }
 
-var links = document.evaluate("//a[contains(@href, 'thingiverse.com/thing:')]",
+var links = document.evaluate("//a[contains(@href, 'thingiverse.com/thing:') or contains(@href, 'thingiverse.com/make:')]",
     document,
     null,
     XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
