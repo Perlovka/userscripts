@@ -1,6 +1,7 @@
-1. **Install Violentmonkey extension:**
+1. **Install userscript extension:**
 
-    [HowTo](https://violentmonkey.github.io/get-it/)
+   * [Violentmonkey](https://violentmonkey.github.io/get-it/)
+   * [Tampermonkey](https://tampermonkey.net)
 
 2. **Click to install userscript:**
 
