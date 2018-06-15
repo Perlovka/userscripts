@@ -1,4 +1,4 @@
-1. **Install userscript extension:**
+1. **Install userscript manager extension:**
    ---------------------------------
 
    * **[Violentmonkey](https://violentmonkey.github.io/get-it/)**
