@@ -1,8 +1,8 @@
 1. **Install userscript extension:**
    ---------------------------------
 
-   * [Violentmonkey](https://violentmonkey.github.io/get-it/)
-   * [Tampermonkey](https://tampermonkey.net)
+   * **[Violentmonkey](https://violentmonkey.github.io/get-it/)**
+   * **[Tampermonkey](https://tampermonkey.net)**
 
 2. **Click to install userscript:**
    --------------------------------
