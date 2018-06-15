@@ -2,7 +2,7 @@
 // @name Global Aliexpress
 // @namespace Perlovka/userscripts
 // @homepageURL https://github.com/Perlovka/userscripts
-// @version 1.0.2
+// @version 1.0.3
 // @downloadURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress/global_aliexpress.user.js
 // @updateURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress/global_aliexpress.user.js
 // @match *://*
