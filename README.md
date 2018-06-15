@@ -4,7 +4,7 @@
    * **[Violentmonkey](https://violentmonkey.github.io/get-it/)**
    * **[Tampermonkey](https://tampermonkey.net)**
 
-**2. **Click to install userscript:**
+**2. Click to install userscript:**
    --------------------------------
 
    * **[Global Aliexpress](https://github.com/Perlovka/userscripts/raw/master/global_aliexpress/global_aliexpress.user.js)**  
