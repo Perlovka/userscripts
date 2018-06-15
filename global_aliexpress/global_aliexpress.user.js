@@ -2,7 +2,7 @@
 // @name Global Aliexpress
 // @namespace Perlovka/userscripts
 // @homepageURL https://github.com/Perlovka/userscripts
-// @version 1.0.3
+// @version 1.0.4
 // @downloadURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress/global_aliexpress.user.js
 // @updateURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress/global_aliexpress.user.js
 // @match *://*
@@ -16,7 +16,7 @@ function stripUrl(url) {
 }
 
 function changeUrl(url) {
-  return url.replace('ru.aliexpress.com', 'www.aliexpress.com');
+  return url.replace('ru.aliexpress.com', 'aliexpress.com');
 }
 
 function unRefer(url, link_id) {
