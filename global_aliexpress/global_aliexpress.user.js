@@ -16,7 +16,7 @@ function stripUrl(url) {
 }
 
 function changeUrl(url) {
-  return stripUrl(url).replace('ru.aliexpress.com', 'www.aliexpress.com');
+  return url.replace('ru.aliexpress.com', 'www.aliexpress.com');
 }
 
 function unRefer(url, link_id) {
