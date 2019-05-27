@@ -2,7 +2,7 @@
 // @name Global Aliexpress
 // @namespace Perlovka/userscripts
 // @homepageURL https://github.com/Perlovka/userscripts
-// @version 1.0.4
+// @version 1.0.5
 // @downloadURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress/global_aliexpress.user.js
 // @updateURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress/global_aliexpress.user.js
 // @match *://*
@@ -43,7 +43,7 @@ for (var i=0; i<links.snapshotLength; i++) {
 
   if (url.match('ru.aliexpress.com')) {
     link.href = changeUrl(url);
-    link.innerHTML = stripUrl(url);
+    link.innerHTML = stripUrl(link.innerHTML);
 //    console.log('Direct link found: ' + url + ' -> ' + stripUrl(url));
   }
   else {
