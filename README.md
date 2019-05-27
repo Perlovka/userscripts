@@ -16,6 +16,6 @@
       Hover links like **`https://www.thingiverse.com/thing:2067818`** or **`https://www.thingiverse.com/make:340318`** and get instant preview in tooltip!  
       *Note: This will not work on sites with Content Security Policy enabled, like github :laughing:*
 
-   * **[spinningist.com]**  
-      [Disable u.to](https://github.com/Perlovka/userscripts/raw/master/spinningist.com/no_uto.user.js)  
-      Disable https://u.to redirection
+   * **spinningist.com**  
+     * **[Disable u.to](https://github.com/Perlovka/userscripts/raw/master/spinningist.com/no_uto.user.js)**  
+       Disable **`https://u.to`** redirection
