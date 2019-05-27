@@ -18,6 +18,8 @@ var links = document.evaluate("//a[contains(@href, '\/u.to\/')]",
     null);
 
 for (var i=0; i<links.snapshotLength; i++) {
-  let link = links.snapshotItem(i);
-  link.href = link.title;
+    let link = links.snapshotItem(i);
+    if (link.title) {
+        link.href = link.title;
+    }
 }
