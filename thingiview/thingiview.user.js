@@ -4,7 +4,7 @@
 // @homepageURL https://github.com/Perlovka/userscripts
 // @downloadURL https://github.com/Perlovka/userscripts/raw/master/thingiview/thingiview.user.js
 // @updateURL https://github.com/Perlovka/userscripts/raw/master/thingiview/thingiview.user.js
-// @version 1.0.5
+// @version 1.0.6
 // @match *://*/*
 // @include *://*/*
 // @run-at document-end
@@ -24,6 +24,7 @@ css.innerHTML = `
     z-index: 100;
     display: block;
     height: `+ tpHeight +`px;
+    width: auto !important;
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.3s;
