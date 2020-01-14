@@ -2,7 +2,7 @@
 // @name Global Aliexpress
 // @namespace Perlovka/userscripts
 // @homepageURL https://github.com/Perlovka/userscripts
-// @version 1.0.5
+// @version 1.0.6
 // @downloadURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress/global_aliexpress.user.js
 // @updateURL https://github.com/Perlovka/userscripts/raw/master/global_aliexpress/global_aliexpress.user.js
 // @match *://*
@@ -16,7 +16,7 @@ function stripUrl(url) {
 }
 
 function changeUrl(url) {
-  return url.replace('ru.aliexpress.com', 'aliexpress.com');
+  return url.replace(/ru.aliexpress.com|aliexpress.ru/, 'aliexpress.com');
 }
 
 function unRefer(url, link_id) {
@@ -31,7 +31,7 @@ function unRefer(url, link_id) {
     } );
 }
 
-var links = document.evaluate("//a[contains(@href, 'ru.aliexpress.com') or contains(@href, 'ali.pub')]",
+var links = document.evaluate("//a[contains(@href, 'ru.aliexpress.com') or contains(@href,'aliexpress.ru') or contains(@href, 'ali.pub')]",
     document,
     null,
     XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
@@ -41,7 +41,7 @@ for (var i=0; i<links.snapshotLength; i++) {
   let link = links.snapshotItem(i);
   let url = link.href;
 
-  if (url.match('ru.aliexpress.com')) {
+  if (url.match('aliexpress')) {
     link.href = changeUrl(url);
     link.innerHTML = stripUrl(link.innerHTML);
 //    console.log('Direct link found: ' + url + ' -> ' + stripUrl(url));
